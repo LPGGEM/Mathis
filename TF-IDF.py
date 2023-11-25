@@ -84,22 +84,28 @@ def tf_idf_matrix(directory:str)->list:
 
     return tf_idf_matrix, tf_idf_dict
         
-    
+def analyse_tf_idf(tf_idf_dict):
+    # 1. Afficher la liste des mots les moins importants dans le corpus de documents.
+    least_important_words = [word for document in tf_idf_dict for word, tf_idf_score in tf_idf_dict[document].items() if tf_idf_score < 0]
+    # enlève si ya des doublons
+    least_important_words = list(dict.fromkeys(least_important_words))
+    print("Mots les moins importants : ", least_important_words)
+
+    # 2. Afficher le(s) mot(s) ayant le score TD-IDF le plus élevé
+    highest_tf_idf_score = max(tf_idf_score for document in tf_idf_dict for tf_idf_score in tf_idf_dict[document].values())
+    highest_tf_idf_words = [word for document in tf_idf_dict for word, tf_idf_score in tf_idf_dict[document].items() if tf_idf_score == highest_tf_idf_score]
+    print("Mots avec le score TF-IDF le plus élevé : ", highest_tf_idf_words)
+
+    # 3. Indiquer le(s) mot(s) le(s) plus répété(s) par le président Chirac
+    chirac_documents = [document for document in tf_idf_dict if "Chirac" in document]
+    chirac_most_repeated_words = [max(tf_idf_dict[document], key=tf_idf_dict[document].get) for document in chirac_documents]
+    print("Mots les plus répétés par le président Chirac : ", chirac_most_repeated_words)
+
 
 if __name__ == '__main__':
     cleaned_file()
-    matrix = tf_idf_matrix("./cleaned")
-    print(matrix[1])
-    print(matrix[0])
-    #! Reponse a la question 1
-    #? Afficher la liste des mots les moins importants dans le corpus de documents.
 
-    #! Reponse a la question 2
-    #? Afficher le(s) mot(s) ayant le score TD-IDF le plus élevé
-
-    #! Reponse a la question 3
-    #? Indiquer le(s) mot(s) le(s) plus répété(s) par le président Chirac
-
-
+    _, tf_idf_dict = tf_idf_matrix("./cleaned")
+    analyse_tf_idf(tf_idf_dict)
 
 
