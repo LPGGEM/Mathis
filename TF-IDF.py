@@ -51,41 +51,55 @@ def inverse_document_frequency(directory:str)->dict:
 
     return word_counts
 
-def tf_idf_matrix(directory:str)->list(dict()):
+def tf_idf_matrix(directory:str)->list:
     """
-    Cette fonction calcule la matrice TF-IDF pour un ensemble de fichiers dans un répertoire donné.
+    Écrire une fonction qui prend en paramètre le répertoire où se trouve l’ensemble des fichiers du corpus et qui retourne une liste de listes représentant la matrice TF-IDF.
 
     Paramètres :
     directory (str) : Le chemin du répertoire contenant les fichiers à analyser.
 
     Retourne :
-    list : Une liste de dictionnaires, où chaque dictionnaire contient les scores TF-IDF pour chaque mot dans un fichier.
+    list : Une liste de listes représentant la matrice TF-IDF.
     """
     idf_scores = inverse_document_frequency(directory)
     tf_idf_matrix = []
+    tf_idf_dict = {}
 
     for filename in os.listdir(directory):
         with open(os.path.join(directory, filename), 'r') as file:
-            namefile = filename.split(".")[0]
             tf_scores = term_frequency(file.read().split())
-            tf_idf_scores = {}
+            tf_idf_scores = []
+            tf_idf_scores_dict = {}
             for word in tf_scores:
                 try:
-                    if tf_scores[word] != 1:
-                        continue
-                    tf_idf_scores[word] = tf_scores[word] * idf_scores[word]
+                    #? Si le mot n'est pas unique on passe au suivant
+                    # if tf_scores[word] != 1:
+                    #     continue
+                    tf_idf_scores.append(tf_scores[word] * idf_scores[word])
+                    tf_idf_scores_dict[word] = tf_scores[word] * idf_scores[word]
                 except:
                     pass
             tf_idf_matrix.append(tf_idf_scores)
+            tf_idf_dict[filename] = tf_idf_scores_dict
 
-    return tf_idf_matrix
+    return tf_idf_matrix, tf_idf_dict
         
-
     
 
 if __name__ == '__main__':
     cleaned_file()
     matrix = tf_idf_matrix("./cleaned")
-    print(matrix)
+    print(matrix[1])
+    print(matrix[0])
+    #! Reponse a la question 1
+    #? Afficher la liste des mots les moins importants dans le corpus de documents.
+
+    #! Reponse a la question 2
+    #? Afficher le(s) mot(s) ayant le score TD-IDF le plus élevé
+
+    #! Reponse a la question 3
+    #? Indiquer le(s) mot(s) le(s) plus répété(s) par le président Chirac
+
+
 
 
