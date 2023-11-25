@@ -101,6 +101,17 @@ def analyse_tf_idf(tf_idf_dict):
     chirac_most_repeated_words = [max(tf_idf_dict[document], key=tf_idf_dict[document].get) for document in chirac_documents]
     print("Mots les plus répétés par le président Chirac : ", chirac_most_repeated_words)
 
+    # 4. Indiquer le(s) nom(s) du (des) président(s) qui a (ont) parlé de la « Nation » et celui qui l’a répété le plus de fois
+    presidents_mentioned_nation = [get_president_name(document) for document in tf_idf_dict if 'Nation' in tf_idf_dict[document]]
+    print("Présidents qui ont parlé de la Nation : ", presidents_mentioned_nation)
+
+    # 5. Indiquer le premier président à parler du climat et/ou de l’écologie
+    first_president_to_mention_climate = next((get_president_name(document) for document in tf_idf_dict if 'climat' in tf_idf_dict[document] or 'écologie' in tf_idf_dict[document]), None)
+    print("Premier président à parler du climat ou de l'écologie : ", first_president_to_mention_climate)
+
+    # 6. Hormis les mots dits « non importants », quel(s) est(sont) le(s) mot(s) que tous les présidents ont évoqués.
+    words_mentioned_by_all_presidents = [word for word in tf_idf_dict[next(iter(tf_idf_dict))] if all(word in tf_idf_dict[document] for document in tf_idf_dict) and any(tf_idf_dict[document][word] != 0 for document in tf_idf_dict)]
+    print("Mots évoqués par tous les présidents : ", words_mentioned_by_all_presidents)
 
 if __name__ == '__main__':
     cleaned_file()
