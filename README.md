@@ -10,3 +10,11 @@ je t'ai laissée des commentaires dans ton code pour que tu comprennes ce que j'
 
 Si tu as des questions n"hesite pas a me contacter.
 vaut mmieux discord que git directement, au pire appel moi.
+
+il te reste a faire :
+
+Programme principal
+Il s’agit ici d’écrire un programme principal temporaire dans lequel il est demandé de :
+
+- Avoir un menu
+- Accéder aux fonctionnalités précédentes selon la demande de l’utilisateur
